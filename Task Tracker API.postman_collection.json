@@ -1,0 +1,827 @@
+{
+	"info": {
+		"_postman_id": "c4c8ce9f-3ebd-4f50-ac3f-a26f437e50a3",
+		"name": "Task Tracker API",
+		"description": "A collection for testing the Task Tracker API endpoints - 19APC4030",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19130377"
+	},
+	"item": [
+		{
+			"name": "1. Create Tasks",
+			"item": [
+				{
+					"name": "Create Task 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the task ID for later use",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"task1_id\", jsonData.id);",
+									"",
+									"// Test response status",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Task created successfully\", function () {",
+									"    pm.expect(jsonData.title).to.eql(\"Complete API Setup\");",
+									"    pm.expect(jsonData.status).to.eql(\"TODO\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Complete API Setup\",\n    \"description\": \"Finish setting up the Spring Boot REST API\",\n    \"status\": \"TODO\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Create a task with TODO status"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the task ID for later use",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"task2_id\", jsonData.id);",
+									"",
+									"// Test response status",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Task created successfully\", function () {",
+									"    pm.expect(jsonData.title).to.eql(\"Implement Frontend\");",
+									"    pm.expect(jsonData.status).to.eql(\"IN_PROGRESS\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Implement Frontend\",\n    \"description\": \"Create a responsive UI for the task tracker\",\n    \"status\": \"IN_PROGRESS\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Create a task with IN_PROGRESS status"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the task ID for later use",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"task3_id\", jsonData.id);",
+									"",
+									"// Test response status",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Task created successfully\", function () {",
+									"    pm.expect(jsonData.title).to.eql(\"Write Documentation\");",
+									"    pm.expect(jsonData.status).to.eql(\"COMPLETED\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Write Documentation\",\n    \"description\": \"Create comprehensive API documentation\",\n    \"status\": \"COMPLETED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Create a task with COMPLETED status"
+					},
+					"response": []
+				}
+			],
+			"description": "Create multiple tasks with different statuses"
+		},
+		{
+			"name": "2. Get All Tasks",
+			"item": [
+				{
+					"name": "Get All Tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Response is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(Array.isArray(jsonData)).to.be.true;",
+									"});",
+									"",
+									"// Test that all 3 tasks are returned",
+									"pm.test(\"All tasks are returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.be.at.least(3);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Get all tasks"
+					},
+					"response": []
+				}
+			],
+			"description": "Retrieve all tasks from the API"
+		},
+		{
+			"name": "3. Get Task by ID",
+			"item": [
+				{
+					"name": "Get Task 1 by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Task has correct title\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"Complete API Setup\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/{{task1_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"{{task1_id}}"
+							]
+						},
+						"description": "Get task 1 by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Non-existent Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"999"
+							]
+						},
+						"description": "Attempt to get a non-existent task"
+					},
+					"response": []
+				}
+			],
+			"description": "Retrieve a specific task by its ID"
+		},
+		{
+			"name": "4. Filter Tasks by Status",
+			"item": [
+				{
+					"name": "Get Tasks with TODO Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"All tasks have TODO status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function(task) {",
+									"        pm.expect(task.status).to.eql(\"TODO\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/status/TODO",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"status",
+								"TODO"
+							]
+						},
+						"description": "Get all tasks with TODO status"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tasks with IN_PROGRESS Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"All tasks have IN_PROGRESS status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function(task) {",
+									"        pm.expect(task.status).to.eql(\"IN_PROGRESS\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/status/IN_PROGRESS",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"status",
+								"IN_PROGRESS"
+							]
+						},
+						"description": "Get all tasks with IN_PROGRESS status"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tasks with COMPLETED Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"All tasks have COMPLETED status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function(task) {",
+									"        pm.expect(task.status).to.eql(\"COMPLETED\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/status/COMPLETED",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"status",
+								"COMPLETED"
+							]
+						},
+						"description": "Get all tasks with COMPLETED status"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tasks with Invalid Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/status/INVALID_STATUS",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"status",
+								"INVALID_STATUS"
+							]
+						},
+						"description": "Attempt to get tasks with an invalid status"
+					},
+					"response": []
+				}
+			],
+			"description": "Filter tasks by their status"
+		},
+		{
+			"name": "5. Update Task",
+			"item": [
+				{
+					"name": "Update Task 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Task updated successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"Complete API Setup\");",
+									"    pm.expect(jsonData.description).to.eql(\"Updated description: API setup is now complete\");",
+									"    pm.expect(jsonData.status).to.eql(\"COMPLETED\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Complete API Setup\",\n    \"description\": \"Updated description: API setup is now complete\",\n    \"status\": \"COMPLETED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks/{{task1_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"{{task1_id}}"
+							]
+						},
+						"description": "Update task 1 to COMPLETED status with a new description"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Non-existent Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Non-existent Task\",\n    \"description\": \"This task doesn't exist\",\n    \"status\": \"TODO\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks/999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"999"
+							]
+						},
+						"description": "Attempt to update a non-existent task"
+					},
+					"response": []
+				}
+			],
+			"description": "Update an existing task"
+		},
+		{
+			"name": "6. Delete Task",
+			"item": [
+				{
+					"name": "Delete Task 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/{{task3_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"{{task3_id}}"
+							]
+						},
+						"description": "Delete task 3"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Task 3 Deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/{{task3_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"{{task3_id}}"
+							]
+						},
+						"description": "Verify that task 3 was deleted"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Non-existent Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"999"
+							]
+						},
+						"description": "Attempt to delete a non-existent task"
+					},
+					"response": []
+				}
+			],
+			"description": "Delete a task"
+		},
+		{
+			"name": "7. Search Tasks by Title",
+			"item": [
+				{
+					"name": "Search for 'API' in Title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Tasks with 'API' in title are returned\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.be.at.least(1);",
+									"    ",
+									"    // Check that each task has 'API' in the title",
+									"    jsonData.forEach(function(task) {",
+									"        pm.expect(task.title.toLowerCase()).to.include(\"api\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/search?title=API",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "API"
+								}
+							]
+						},
+						"description": "Search for tasks with 'API' in the title"
+					},
+					"response": []
+				},
+				{
+					"name": "Search for Non-existent Title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test response status",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test response content",
+									"pm.test(\"Empty array is returned for non-existent title\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/search?title=NonExistentTitle",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "NonExistentTitle"
+								}
+							]
+						},
+						"description": "Search for tasks with a non-existent title"
+					},
+					"response": []
+				}
+			],
+			"description": "Search for tasks by title"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "task1_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "task2_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "task3_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
